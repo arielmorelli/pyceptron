@@ -3,14 +3,13 @@ class Perceptron(object):
         self.learn_rate = learn_rate
         self.size = size
         self.weights = [0]*(size*size+1)
-        print "learn rate:", self.learn_rate, "pesos:", self.weights
 
     def learn(self, tests):
         interation = 0
         done = False
         while not done:
-            interation += 1
             done = True
+            interation += 1
             function_value = 0
             for test in tests:
                 for i in range(0, len(self.weights)):
@@ -21,9 +20,13 @@ class Perceptron(object):
                     for i in range(0, len(self.weights)):
                         self.weights[i] += self.learn_rate*(test['expected'] - s_out)*test['entry'][i]
         print 'Iterations:', interation
-        # print self.weights.reshape(self.size, self.size)
+
+    def get_weights(self):
+        matrix = []
         for i in range(1, self.size*self.size+1, self.size):
-            print [self.weights[i+j] for j in range(0, self.size)]
+            line = [self.weights[i+j] for j in range(0, self.size)]
+            matrix.append(line)
+        return matrix
 
     @staticmethod
     def _f_value(value):
