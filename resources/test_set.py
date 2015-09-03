@@ -1,11 +1,14 @@
-def load_test_set(tests):
-    file = open('infile.txt', 'r')
-    size = int(file.readline())
+def load_test_set(tests, file_name):
+    file = open(file_name, 'r')
+    sizes = file.readline().split('\n')
+    sizes = sizes[0].split('x')
+    size_x = int(sizes[0])
+    size_y = int(sizes[1])
 
     current = 0
     matrix = []
     for line in file:
-        if current < size:
+        if current < size_y:
             matrix.append(line)
             current += 1
         else:
@@ -16,7 +19,7 @@ def load_test_set(tests):
             matrix= []
             current = 0
 
-    return size
+    return size_x, size_y
 
 
 def process_matrix(matrix):

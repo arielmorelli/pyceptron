@@ -1,8 +1,9 @@
 class Perceptron(object):
-    def __init__(self, learn_rate, size):
+    def __init__(self, learn_rate, size_x, size_y):
         self.learn_rate = learn_rate
-        self.size = size
-        self.weights = [0]*(size*size+1)
+        self.size_x = size_x
+        self.size_y = size_y
+        self.weights = [0]*(size_x*size_y+1)
 
     def learn(self, tests):
         interation = 0
@@ -10,8 +11,8 @@ class Perceptron(object):
         while not done:
             done = True
             interation += 1
-            function_value = 0
             for test in tests:
+                function_value = 0
                 for i in range(0, len(self.weights)):
                     function_value += self.weights[i]*test['entry'][i]
                 s_out = self._f_value(function_value)
@@ -19,14 +20,14 @@ class Perceptron(object):
                     done = False
                     for i in range(0, len(self.weights)):
                         self.weights[i] += self.learn_rate*(test['expected'] - s_out)*test['entry'][i]
-        print 'Iterations:', interation
+        print 'Number of iterations:', interation
 
-    def get_weights(self):
-        matrix = []
-        for i in range(1, self.size*self.size+1, self.size):
-            line = [self.weights[i+j] for j in range(0, self.size)]
-            matrix.append(line)
-        return matrix
+    def print_weights(self):
+        final_matrix = self.weights[1:]
+        print 'Weights:'
+        print 'w0:', self.weights[0], '(bias)'
+        for y in range(0, self.size_y):
+            print ['%.4f' % final_matrix[x+(y*self.size_x)] for x in range(0, self.size_x)]
 
     @staticmethod
     def _f_value(value):
